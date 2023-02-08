@@ -1834,9 +1834,6 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
     plt.show()
 
 
-
-
-
 def plot_vm():
 
     '''
@@ -1885,8 +1882,8 @@ def plot_vm():
 
     # plot first trace to spike
     a1.plot(M[rheob_index][2][0], M[rheob_index][2][1], 'k', lw=2)
-    a1.plot([10,110], [-20, -20], 'k')
-    a1.plot([10, 10], [-20, -10], 'k')
+    # a1.plot([10,110], [-20, -20], 'k')
+    # a1.plot([10, 10], [-20, -10], 'k')
     a1.axis('off')
 
     #plt.savefig('../../../Dropbox/manuscript/Frontiers/Figures/example_traces.png', transparent=True)

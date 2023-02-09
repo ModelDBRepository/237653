@@ -21,13 +21,11 @@ import numpy                as np
 import matplotlib.pyplot    as plt
 import plot_functions       as fun
 import MSN_builder          as build
-
+import os
 
 
 h.load_file('stdlib.hoc')
 h.load_file('import3d.hoc')
-
-
 
 
 def save_vector(t, v, outfile):
@@ -162,6 +160,13 @@ def main(   par="./params_dMSN.json",        \
 
 
     # save output ------------------------------------------------------------------------
+
+    for name in ["Results/Ca", "Results/FI", "Figures"]:
+    try:
+        os.makedirs(name)
+    except:
+        pass
+        
 
     if sim == 'ca':
 

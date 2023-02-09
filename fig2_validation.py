@@ -162,10 +162,10 @@ def main(   par="./params_dMSN.json",        \
     # save output ------------------------------------------------------------------------
 
     for name in ["Results/Ca", "Results/FI", "Figures"]:
-    try:
-        os.makedirs(name)
-    except:
-        pass
+        try:
+            os.makedirs(name)
+        except:
+            pass
         
 
     if sim == 'ca':

@@ -21,7 +21,7 @@ import numpy                as np
 import matplotlib.pyplot    as plt
 import plot_functions       as fun
 import MSN_builder          as build
-
+import os
 
 
 h.load_file('stdlib.hoc')
@@ -163,6 +163,12 @@ def main(   par="./params_dMSN.json",        \
     
     # save output ------------------------------------------------------------------------
     
+    for name in ["Results/Ca", "Results/FI", "Figures"]:
+        try:
+            os.makedirs(name)
+        except:
+            pass
+
     if sim == 'ca':
         
         print('saving', sim, 'simulation')
@@ -181,8 +187,7 @@ def main(   par="./params_dMSN.json",        \
                     sName       =   sec.name().split('[')[0]
                     vName       =   'ca_%s%s_%s'  %  ( sName, str(i), str(j)  )
                     v2Name      =   'cal_%s%s_%s' %  ( sName, str(i), str(j)  )
-                    fName       =   'Results/Ca/ca_%s_%s.out'  %  ( str(int(np.round(h.distance(seg.x)))), vName )
-                    
+                    fName       =   'Results/Ca/ca_%s_%s.out'  %  ( str(int(np.round(h.distance(cell.soma(0.5), sec(seg.x))))), vName )                    
                     cmd     = 'save_vector(tm, np.add(%s, %s), %s)' % (vName, v2Name, 'fName' ) # this is were concentrations are summed (see above)
                     
                     exec(cmd)
@@ -219,16 +224,14 @@ if __name__ == "__main__":
     # somatic excitability (validated against FI curves in Planert et al., 2013)  
     currents    = np.arange(-100,445,40)
     num_cores   = multiprocessing.cpu_count()
-    Parallel(n_jobs=num_cores)(delayed(main)(   par="./params_dMSN.json",   \
-                                                amp=current*1e-3,           \
+    Parallel(n_jobs=num_cores, backend='multiprocessing')(delayed(main)(   par="./params_dMSN.json",   \                                                amp=current*1e-3,           \
                                                 run=1,                      \
                                                 simDur=1000,                \
                                                 stimDur=900                 \
                         ) for current in currents)
                         
     currents    = np.arange(320,445,40)
-    Parallel(n_jobs=num_cores)(delayed(main)(   par="./params_dMSN.json",   \
-                                                amp=current*1e-3,           \
+    Parallel(n_jobs=num_cores, backend='multiprocessing')(delayed(main)(   par="./params_dMSN.json",   \                                                amp=current*1e-3,           \
                                                 run=1,                      \
                                                 simDur=1000,                \
                                                 stimDur=900                 \
@@ -238,8 +241,8 @@ if __name__ == "__main__":
     print('all simulations done! Now plotting')
         
     # PLOTTING
-    fun.plot_Ca('Results/Ca/ca*.out')
     fun.plot_vm()
+    fun.plot_Ca('Results/Ca/ca*.out')
     plt.show()        
 
                                                     
@@ -254,4 +257,3 @@ if __name__ == "__main__":
           
     
         
-

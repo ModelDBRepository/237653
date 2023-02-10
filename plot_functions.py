@@ -1,9 +1,9 @@
-    #! /usr/bin/python
+#! /usr/bin/python
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
-from matplotlib.mlab import griddata
+#from matplotlib.mlab import griddata
 import glob
 import sys
 import os
@@ -55,7 +55,7 @@ def pickle_the_pickle(file_string, outName):
             for k2 in res[k]:
                 new_dict[c][k2] = res[k][k2]
                 
-                print k2, res[k][k2]
+                print(k2, res[k][k2])
                 
             c+=1
                 
@@ -92,7 +92,7 @@ def repickle_static(outName):
                     new_dict[c][i] = res[k1][i]
                         
                 c+=1
-                print c
+                print(c)
                 
     files   = glob.glob('Beskow/save/DRM*')
     
@@ -130,7 +130,7 @@ def repickle_static(outName):
             #print i, res['vm'][i]
                 
         c+=1
-        print c
+        print(c)
         
         
     # repickle the combined files
@@ -167,7 +167,7 @@ def repickle_static2(inName, outName):
                     new_dict[c][i] = res[k1][i]
                         
                 c+=1
-                print c
+                print(c)
         
     # repickle the combined files
     save_obj(new_dict, outName)
@@ -200,7 +200,7 @@ def adjust_spines(ax, spines, detache=False):
         
         
 def pie_autopct(pct):
-    #print pct
+    #print (pct)
     return ('%1.0f' % pct) if pct > 20 else ''
     
     
@@ -239,8 +239,8 @@ def simple_plot(fString, color=None):
     
     files = glob.glob(fString)
     
-    print fString
-    print files
+    print (fString)
+    print (files)
     
     num_cores = multiprocessing.cpu_count() #int(np.ceil(multiprocessing.cpu_count() / 2))
     M = Parallel(n_jobs=num_cores)(delayed(load_file)( f ) for f in files)
@@ -255,7 +255,7 @@ def simple_plot(fString, color=None):
         else:
             plt.plot(x,y, label=f, lw=2, color='grey' ) 
         
-            print f
+            print (f)
     
     if color:
         plt.plot([0,2000], [-70,-70], 'k--', lw=4)
@@ -334,13 +334,14 @@ def plot_modulation(fString, save=1):
     
     ax[0].legend(loc=1)
     
+    '''
     if save == 1:
         plt.savefig('../../../Dropbox/manuscript/Frontiers/Figures/modulation.png', transparent=True)
     if save == 2:
         plt.savefig('../../../Dropbox/manuscript/Frontiers/Figures/modulation_KIR-down_Kaf-zero_allMod.png', transparent=True)
     
     plt.show()
-
+    '''
 
 
 
@@ -402,7 +403,7 @@ def loadFile(f):
     x,y = np.loadtxt(f, unpack=True)
     
     amp = int(f.split('/')[-1].split('_')[2].split('.')[0])
-    #print f, amp
+    #print (f, amp)
     
     return [getSpikedata_x_y(x,y), amp, [x,y] ]
 
@@ -454,7 +455,7 @@ def plot_modulation_dynamical():
              
     for file_string in all_files:
         
-        print file_string
+        print() file_string )
         
         ID = file_string.split('_')[-1]
         
@@ -520,7 +521,7 @@ def plot_modulation_dynamical():
                 res[ID][m[1]] = {'isi': freq, 't': T }
                 
                 if len(m[0]) < 3:
-                    print ID, m[1], m[0], res[ID][m[1]]
+                    print (ID, m[1], m[0], res[ID][m[1]])
                 
             
     colors = [[0,0,0], [1, 1, 0], [0.5, 0.5, 0.5], [1,0,0], [0,1,0], [0,0,1], [1,0,1] ] 
@@ -534,7 +535,7 @@ def plot_modulation_dynamical():
         
         for j, trace in enumerate(currents):
             
-            print ID, i, trace
+            print (ID, i, trace)
             
             if ID in legend:
                 
@@ -607,11 +608,12 @@ def plot_modulation_dynamical():
         ax[0,1].set_ylim([0,2500])
         ax[0,1].set_axis_off()
     ax[0,0].set_axis_off()
-        
+
+    '''        
     fig.savefig('../../../Dropbox/manuscript/Frontiers/Figures/modulation_FI_dynamic.png', 
                bbox_inches='tight', 
                transparent=True,
-               pad_inches=0 )
+               pad_inches=0 ) '''
     
     
     #plt.figure()
@@ -688,23 +690,23 @@ def sort_input( simulation, modulation, channels, res, i, j, exception=False ):
         # check if factor is within range  
         if (mod == '*') or ( np.abs(mod[0] - mod_fact) <= mod[1] ):
             if channels[n] in [ 'naf']:
-                print channels[n], mod_fact
+                print (channels[n], mod_fact)
         else:
             not_in_range = channels[n] + str(mod_fact) + ' ' + str( np.abs(mod[0] - mod_fact) )
             flag = False
             
             if exception and channels[n] in ['kaf', 'naf']:
                 
-                print channels[n], mod_fact
+                print (channels[n], mod_fact)
                 flag = True
                 
             elif channels[n] in [ 'naf']:
-                print channels[n], mod_fact 
+                print (channels[n], mod_fact)
             
             
     if flag:
         
-        #print simulation['factors']
+        #print (simulation['factors'])
         
         for n,mod in enumerate(modulation):
             
@@ -770,11 +772,11 @@ def plot_synMod_partial( sim='all-uniform_T1p', marker=None, modulation=[[0.7,0.
                         autopct=pie_autopct       )
                         
     plt.rcParams['font.size'] = 22
-    
+    '''
     plt.savefig(''.join(['../../../Dropbox/manuscript/Frontiers/Figures/highExcUniform_dynamic_PKA_proportion.png']), 
            bbox_inches='tight', 
            transparent=True,
-           pad_inches=0 ) 
+           pad_inches=0 ) '''
            
     # what's the time to first spike?  
     for key in res[i]['spikes']:
@@ -795,8 +797,8 @@ def plot_synMod_partial( sim='all-uniform_T1p', marker=None, modulation=[[0.7,0.
                     medianprops=medianprops,    \
                     boxprops=boxprops) 
     format_boxplot(bp1, median=True, lw=2, colors=['#bf5b17', '#bf5b17', '#bf5b17', '#bf5b17', '#bf5b17'])
-    print 'substrates: ', bp1['medians'][0].get_ydata()
-        
+    print ()'substrates: ', bp1['medians'][0].get_ydata())
+    '''
     plt.savefig(''.join(['../../../Dropbox/manuscript/Frontiers/Figures/highExcUniform_dynamic_PKA_dtSpike_pdc.png']), 
                bbox_inches='tight', 
                transparent=True,
@@ -804,7 +806,7 @@ def plot_synMod_partial( sim='all-uniform_T1p', marker=None, modulation=[[0.7,0.
     
     plt.xlim([0, 1000])          
     plt.show()   
-
+    '''
 
 
 
@@ -869,7 +871,7 @@ def plot_synMod_dyn_pdc( sim='all_synMod', marker=None, modulation=[[0.7,0.1],  
             
             f               = glob.glob('Beskow/save/all_'+sim+'.pkl') 
             
-            print f 
+            print (f )
                 
             IN              = load_obj(f[0])
             
@@ -927,12 +929,12 @@ def plot_synMod_dyn_pdc( sim='all_synMod', marker=None, modulation=[[0.7,0.1],  
                     
         
         save_obj(t_first_spike, 'Beskow/save/fig_dynamic_t_first_spike')  
-        
+        '''
         f1.savefig(''.join(['../../../Dropbox/manuscript/Frontiers/Figures/dynamic_PKA_proportion_pdc.png']), 
                bbox_inches='tight', 
                transparent=True,
                pad_inches=0 )  
-        '''       
+
         fKaf.savefig(''.join(['../../../Dropbox/manuscript/Frontiers/Figures/dynamic_PKA-noNafMod_pdc.png']), 
                bbox_inches='tight', 
                transparent=True,
@@ -992,7 +994,7 @@ def plot_synMod_dyn_pdc( sim='all_synMod', marker=None, modulation=[[0.7,0.1],  
                     medianprops=medianprops,    \
                     boxprops=boxprops) 
     format_boxplot(bp1, median=True, lw=2, colors=['#bf5b17', '#bf5b17', '#bf5b17', '#bf5b17', '#bf5b17'])
-    print 'substrates: ', bp1['medians'][0].get_ydata()
+    print ('substrates: ', bp1['medians'][0].get_ydata())
     
     # over substrates (PKA, cAMP, Gbg, DIR)--reversed                
     bp2 = a2[1].boxplot([t_first_spike[i] for i in [3,2,1,0]],   \
@@ -1003,8 +1005,7 @@ def plot_synMod_dyn_pdc( sim='all_synMod', marker=None, modulation=[[0.7,0.1],  
     format_boxplot(bp2, median=True, lw=2, colors=colors[::-1])
     
     for median in range(len(bp2['medians'])):
-        print
-        print bp2['medians'][median].get_xdata()
+        print (bp2['medians'][median].get_xdata())
         
     
     for ax in a2[0:1]:
@@ -1039,7 +1040,7 @@ def plot_synMod_dyn_pdc( sim='all_synMod', marker=None, modulation=[[0.7,0.1],  
     #a2[0].tick_params(axis='both', bottom='off', top='off', left='off', right='off', labelleft='off')
         
     
-    
+    '''
     f2.savefig(''.join(['../../../Dropbox/manuscript/Frontiers/Figures/dynamic_substrates_Example_dtSpike_pdc.png']), 
                bbox_inches='tight', 
                transparent=True,
@@ -1048,7 +1049,7 @@ def plot_synMod_dyn_pdc( sim='all_synMod', marker=None, modulation=[[0.7,0.1],  
     f3.savefig(''.join(['../../../Dropbox/manuscript/Frontiers/Figures/dynamic_PKA_dtSpike_pdc.png']), 
                bbox_inches='tight', 
                transparent=True,
-               pad_inches=0 )
+               pad_inches=0 )'''
     
                    
     plt.show()
@@ -1273,7 +1274,7 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
             raster[ID]  = {}
             
             
-            print ID
+            print (ID)
             
             
             for amp in I:
@@ -1408,7 +1409,7 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
     
     #plt.figure()
     
-    print 'fig 1 done'
+    print ('fig 1 done')
     
     
     '''f2, a2 = plt.subplots(len(channels), 1, figsize=(6,6), sharex=True)
@@ -1423,7 +1424,7 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
         a2[i].set_yticks([])
         #a2[i].set_yticklabels([0,20], fontsize=18)
         
-        #print n, channel
+        #print (n, channel)
         
     #a2[0].set_title('Total sample distribution', fontsize=50)
     a2[-1].set_xlabel('Modulation (%)', fontsize=35)
@@ -1444,7 +1445,7 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
     plt.xticks(np.arange(0,210,50), fontsize=28)
     plt.yticks([0,1000,2000,3000], [0,1,2,3], fontsize=28)
     
-    print n, np.sum(n)
+    print (n, np.sum(n))
     
     plt.savefig('../../../Dropbox/manuscript/Frontiers/Figures/static_chanDistKas_pdc.png', 
                bbox_inches='tight', 
@@ -1452,7 +1453,7 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
                pad_inches=0 )'''
         
     
-    print 'fig 2 done'
+    print ('fig 2 done')
     
     f3, a3 = plt.subplots(1, 1, figsize=(5,4))
     #axins = plt.axes([.60, .13, .3, .25])
@@ -1516,7 +1517,7 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
                transparent=True,
                pad_inches=0 )'''
     
-    print 'fig 3 done'
+    print ('fig 3 done')
     
         
     
@@ -1549,7 +1550,7 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
                transparent=True,
                pad_inches=0 )'''
     
-    print 'fig 4 done'  
+    print ('fig 4 done')
     
     # plot correlation of kaf and naf channels
     #   for the "more" excitable group
@@ -1585,7 +1586,7 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
         # recalc using scipy
         statistics  =   linregress(quant['more']['naf'], quant['more']['kaf'])
         
-        print statistics
+        print (statistics)
         
         y1 = statistics[0]*minv+statistics[1] 
         y2 = statistics[0]*maxv+statistics[1]
@@ -1604,7 +1605,7 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
                    pad_inches=0 )'''
                    
     except:
-        print 'could not save correlation figure--line ~1475'
+        print ()'could not save correlation figure--line ~1475')
                
                
     f6, a6  =   plt.subplots(len(channels), len(channels), figsize=(10,10), sharex=True)
@@ -1661,7 +1662,7 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
                     statistics  =   linregress(quant['more'][chan1], quant['more'][chan2])
                     R_square    =   statistics[2]**2
                     
-                    print 'more', chan1, chan2, R_square
+                    print ('more', chan1, chan2, R_square)
                     if R_square*1000 >= 1:
                         if chan2 == 'kir':
                             a6[i2,i1].text(100, 150, str.format('{0:.2f}', R_square), fontsize=12)
@@ -1682,7 +1683,7 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
                     statistics  =   linregress(quant['equal'][chan1], quant['equal'][chan2])
                     R_square    =   statistics[2]**2
                     
-                    print 'equal', chan1, chan2, R_square
+                    print ('equal', chan1, chan2, R_square)
                     if R_square*1000 >= 1:
                         if chan2 == 'kir':
                             a6[i1,i2].text(100, 150, str.format('{0:.2f}', R_square), fontsize=12)
@@ -1708,7 +1709,7 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
                     ax.plot([100,100], [0,200], 'k')
                     ax.plot( x, [y1,y2], '-r', lw=3 )
                     
-                    print 'less', chan1, chan2, R_square 
+                    print ('less', chan1, chan2, R_square)
                     R = R + R_square
         
         ax.text(100, 150, str.format('{0:.2f}', R), fontsize=18)
@@ -1725,10 +1726,10 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
                    transparent=True,
                    pad_inches=0 )'''
     
-        print 'fig 4 done'  
+        print ('fig 4 done')
     
     except:
-        print 'could not save correlation figure--line ~1599'
+        print ('could not save correlation figure--line ~1599')
     
     '''
     f4, a4 = plt.subplots(len(currents)-3, 1, figsize=(4,3))
@@ -1799,7 +1800,7 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
             indx    = list(currents).index(M[c][1])
             i       = len(currents) - (indx+2)
             
-            print indx, M[c][1], i, c
+            print (indx, M[c][1], i, c)
             
             y       = np.ones( len(M[c][0]) ) * Max * 0.5
             
@@ -1831,15 +1832,12 @@ def plot_modulation_dynamical_pdc(modulation=[[70,10], [75,10], [100,3], [102,22
     
     #plt.close('all')
     plt.show()
-    
-
-
 
 
 def plot_vm():
     
     '''
-    Reproduces the base plots (validation: figure 1 B and C) for the frontiers paper.
+    Reproduces the base plots (validation: figure 2 B and C) for the frontiers paper.
     
     '''
     
@@ -1884,8 +1882,8 @@ def plot_vm():
     
     # plot first trace to spike
     a1.plot(M[rheob_index][2][0], M[rheob_index][2][1], 'k', lw=2)
-    a1.plot([10,110], [-20, -20], 'k')
-    a1.plot([10, 10], [-20, -10], 'k')
+    # a1.plot([10,110], [-20, -20], 'k')
+    # a1.plot([10, 10], [-20, -10], 'k')
     a1.axis('off')
     
     #plt.savefig('../../../Dropbox/manuscript/Frontiers/Figures/example_traces.png', transparent=True)
@@ -1992,7 +1990,7 @@ def plot_IF_modulation():
              
     for file_string in all_files:
         
-        print file_string
+        print (file_string)
         
         files       = glob.glob(file_string)
         
@@ -2030,7 +2028,7 @@ def plot_IF_modulation():
                 if m[1] > last_subThresh:
                     
                     # ...and current amp larger than for current last_subthreshold, update!
-                    print file_string, last_subThresh, m[1]
+                    print (file_string, last_subThresh, m[1])
                     last_subThresh = m[1]
         
         # add last trace without spike to results
@@ -2049,7 +2047,7 @@ def plot_IF_modulation():
         
         label = file_string.split('_')[-1]  
         
-        #print label, last_subThresh 
+        #print (label, last_subThresh)
         
         ax.plot(INJ, AMP, lw=4, label=label, clip_on=False)
     
@@ -2081,10 +2079,10 @@ def plot_IF_modulation():
         ax.spines[axis].set_linewidth(4)
     
     
-    fig.savefig('../../../Dropbox/manuscript/Frontiers/Figures/modulation_FI.png', 
+    '''fig.savefig('../../../Dropbox/manuscript/Frontiers/Figures/modulation_FI.png', 
                bbox_inches='tight', 
                transparent=True,
-               pad_inches=0 )
+               pad_inches=0 )'''
     
     
     plt.show()  

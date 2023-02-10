@@ -207,4 +207,9 @@ files for the simulation at the end to work).
 
 
 
+
+CHANGELOG
+------------------------------------------------------------------------------------------
+2023-02-10 Updated by Pedro García-Rodríguez to support python 3 and for more modern h.distance usage
+
  
